@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>aqirax.net · Fuera De Servicio</title>
   
-  <!-- ===== METAETIQUETAS PARA EMBED DE DISCORD ===== -->
-  <meta property="og:title" content="aqirax.net · Fuera De Servicio" />
+  <!-- ===== METAETIQUETAS PARA EMBED ===== -->
+  <meta property="og:title" content="aqirax.net" />
   <meta property="og:description" content="Estamos en mantenimiento. Vuelve pronto o únete a nuestro Discord para estar al día." />
   <meta property="og:url" content="https://aqirax.net" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://via.placeholder.com/1200x630/111111/ffffff?text=aqirax.net" />
+  
+  <!-- ⬇️⬇️⬇️ PEGA AQUÍ TU URL DIRECTA DE IMGUR ⬇️⬇️⬇️ -->
+  <meta property="og:image" content="https://i.imgur.com/oZotBXK.jpeg" />
+  <!-- ⬆️⬆️⬆️ PEGA AQUÍ TU URL DIRECTA DE IMGUR ⬆️⬆️⬆️ -->
+  
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="theme-color" content="#111111" />
@@ -20,10 +24,12 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
+  <!-- ⬇️⬇️⬇️ Y TAMBIÉN AQUÍ ⬇️⬇️⬇️ -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="aqirax.net · Fuera De Servicio" />
   <meta name="twitter:description" content="Estamos en mantenimiento. Vuelve pronto o únete a nuestro Discord." />
-  <meta name="twitter:image" content="https://via.placeholder.com/1200x630/111111/ffffff?text=aqirax.net" />
+  <meta name="twitter:image" content="https://i.imgur.com/TU_CODIGO.jpg" />
+  <!-- ⬆️⬆️⬆️ Y TAMBIÉN AQUÍ ⬆️⬆️⬆️ -->
   
   <style>
     /* === RESET === */
@@ -44,7 +50,6 @@
       overflow: hidden;
     }
 
-    /* === ESTRELLAS === */
     #star-canvas {
       position: fixed;
       top: 0;
@@ -82,7 +87,6 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
-    /* === ÍCONOS SVG === */
     .icon-large {
       display: inline-block;
       width: 64px;
@@ -119,7 +123,6 @@
       stroke-linejoin: round;
     }
 
-    /* === TEXTO === */
     .card h1 {
       font-size: 3rem;
       font-weight: 300;
@@ -164,7 +167,6 @@
       display: inline-block;
     }
 
-    /* === DIVISOR DECORATIVO === */
     .divider {
       width: 60px;
       height: 1px;
@@ -172,7 +174,6 @@
       margin: 0.8rem auto 1.8rem;
     }
 
-    /* === BOTÓN DISCORD === */
     .btn-discord {
       display: inline-flex;
       align-items: center;
@@ -204,7 +205,6 @@
       transform: translateY(0px);
     }
 
-    /* === BADGE VERSIÓN === */
     .version-badge {
       position: fixed;
       bottom: 16px;
@@ -222,7 +222,6 @@
       letter-spacing: 1px;
     }
 
-    /* === RESPONSIVE === */
     @media (max-width: 480px) {
       .card {
         padding: 2rem 1.5rem 2rem;
@@ -244,13 +243,9 @@
 </head>
 <body>
 
-  <!-- Canvas estrellas -->
   <canvas id="star-canvas"></canvas>
 
-  <!-- Tarjeta transparente -->
   <div class="card">
-
-    <!-- Ícono SVG: herramienta / mantenimiento -->
     <div class="icon-large">
       <svg viewBox="0 0 24 24">
         <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
@@ -296,12 +291,11 @@
     </a>
   </div>
 
-  <!-- Badge versión -->
   <div class="version-badge">v2.0 · 2026</div>
 
   <script>
     // ============================================================
-    //  ESTRELLAS CAYENDO (mejoradas)
+    //  ESTRELLAS CAYENDO
     // ============================================================
     (function() {
       const canvas = document.getElementById('star-canvas');
@@ -340,7 +334,6 @@
       function draw() {
         ctx.clearRect(0, 0, w, h);
         
-        // Fondo con gradiente muy sutil
         const gradient = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w);
         gradient.addColorStop(0, '#0f0f0f');
         gradient.addColorStop(1, '#050505');
@@ -363,7 +356,6 @@
           const twinkle = Math.sin(time * 1.5 + s.x * 0.1) * 0.2 + 0.8;
           const alpha = s.opacity * twinkle;
 
-          // Glow
           const gradient2 = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 2);
           gradient2.addColorStop(0, `rgba(255, 255, 255, ${alpha * 0.3})`);
           gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -372,19 +364,16 @@
           ctx.arc(s.x, s.y, s.size * 2, 0, Math.PI * 2);
           ctx.fill();
 
-          // Estrella principal
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.size * 0.6, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
           ctx.fill();
 
-          // Brillo central
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.size * 0.2, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
           ctx.fill();
 
-          // Estela (caída)
           if (s.speed > 1.2) {
             ctx.beginPath();
             ctx.moveTo(s.x, s.y);
@@ -416,17 +405,9 @@
       }
       metaUpdated.setAttribute('content', isoString);
 
-      const ogImage = document.querySelector('meta[property="og:image"]');
-      if (ogImage) {
-        const baseUrl = 'https://via.placeholder.com/1200x630/111111/ffffff?text=aqirax.net';
-        ogImage.setAttribute('content', `${baseUrl}&_=${Date.now()}`);
-      }
-
-      const twitterImage = document.querySelector('meta[name="twitter:image"]');
-      if (twitterImage) {
-        const baseUrl = 'https://via.placeholder.com/1200x630/111111/ffffff?text=aqirax.net';
-        twitterImage.setAttribute('content', `${baseUrl}&_=${Date.now()}`);
-      }
+      // Si usas imagen de Imgur, NO necesitas el timestamp automático
+      // porque la URL ya es fija. Si quieres forzar actualización,
+      // añade ?v=2 manualmente en la URL de la imagen.
     })();
   </script>
 </body>
