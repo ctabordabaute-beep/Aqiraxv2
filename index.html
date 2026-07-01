@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>aqirax.net · Fuera De Servicio</title>
+  <title>aqirax.net · Code Obfuscator and Protector</title>
   
-  <!-- ===== METAETIQUETAS PARA EMBED ===== -->
-  <meta property="og:title" content="aqirax.net" />
+  <!-- ===== METAETIQUETAS PARA EMBED DE DISCORD ===== -->
+  <meta property="og:title" content="Code Obfuscator and Protector" />
   <meta property="og:description" content="Estamos en mantenimiento. Vuelve pronto o únete a nuestro Discord para estar al día." />
   <meta property="og:url" content="https://aqirax.net" />
   <meta property="og:type" content="website" />
   
-  <!-- ⬇️⬇️⬇️ PEGA AQUÍ TU URL DIRECTA DE IMGUR ⬇️⬇️⬇️ -->
+  <!-- ⬇️⬇️⬇️ TU IMAGEN DE IMGUR ⬇️⬇️⬇️ -->
   <meta property="og:image" content="https://i.imgur.com/oZotBXK.jpeg" />
-  <!-- ⬆️⬆️⬆️ PEGA AQUÍ TU URL DIRECTA DE IMGUR ⬆️⬆️⬆️ -->
+  <!-- ⬆️⬆️⬆️ TU IMAGEN DE IMGUR ⬆️⬆️⬆️ -->
   
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -24,12 +24,12 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
-  <!-- ⬇️⬇️⬇️ Y TAMBIÉN AQUÍ ⬇️⬇️⬇️ -->
+  <!-- ⬇️⬇️⬇️ TWITTER CARD CON EL MISMO TEXTO ⬇️⬇️⬇️ -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="aqirax.net · Fuera De Servicio" />
+  <meta name="twitter:title" content="Code Obfuscator and Protector" />
   <meta name="twitter:description" content="Estamos en mantenimiento. Vuelve pronto o únete a nuestro Discord." />
-  <meta name="twitter:image" content="https://i.imgur.com/TU_CODIGO.jpg" />
-  <!-- ⬆️⬆️⬆️ Y TAMBIÉN AQUÍ ⬆️⬆️⬆️ -->
+  <meta name="twitter:image" content="https://i.imgur.com/oZotBXK.jpeg" />
+  <!-- ⬆️⬆️⬆️ TWITTER CARD CON EL MISMO TEXTO ⬆️⬆️⬆️ -->
   
   <style>
     /* === RESET === */
@@ -124,27 +124,30 @@
     }
 
     .card h1 {
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 300;
-      letter-spacing: 4px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: #f5f5f5;
       text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
       margin-bottom: 0.3rem;
-      line-height: 1.1;
+      line-height: 1.2;
     }
 
     .card h1 span {
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
+      display: block;
+      font-size: 2rem;
+      margin-top: 0.2rem;
     }
 
     .card .sub {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 400;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.5);
       text-transform: uppercase;
-      letter-spacing: 6px;
+      letter-spacing: 8px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.08);
       display: inline-block;
@@ -209,7 +212,7 @@
       position: fixed;
       bottom: 16px;
       right: 20px;
-      color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.12);
       font-size: 10px;
       font-family: 'Courier New', monospace;
       background: rgba(0, 0, 0, 0.4);
@@ -228,7 +231,10 @@
         border-radius: 2rem;
       }
       .card h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
+      }
+      .card h1 span {
+        font-size: 1.5rem;
       }
       .icon-large {
         width: 48px;
@@ -246,17 +252,17 @@
   <canvas id="star-canvas"></canvas>
 
   <div class="card">
+    <!-- Ícono: escudo/código -->
     <div class="icon-large">
       <svg viewBox="0 0 24 24">
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
+        <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" />
+        <path d="M9 12L11 14L15 10" />
         <path d="M12 8V12" />
         <path d="M12 16H12.01" />
-        <path d="M12 22C17.5228 22 22 17.5228 22 12" />
-        <path d="M2 12C2 6.47715 6.47715 2 12 2" />
       </svg>
     </div>
 
-    <h1>Fuera De<br><span>Servicio</span></h1>
+    <h1>Code<br><span>Obfuscator &amp; Protector</span></h1>
     
     <div class="divider"></div>
     
@@ -270,7 +276,7 @@
           <path d="M2 12L12 17L22 12" />
         </svg>
       </span>
-      Estamos mejorando nuestra experiencia
+      Estamos mejorando nuestra herramienta
     </p>
 
     <a href="https://discord.gg/CYYjrGtWjU" class="btn-discord" target="_blank" rel="noopener noreferrer">
@@ -404,10 +410,6 @@
         document.head.appendChild(metaUpdated);
       }
       metaUpdated.setAttribute('content', isoString);
-
-      // Si usas imagen de Imgur, NO necesitas el timestamp automático
-      // porque la URL ya es fija. Si quieres forzar actualización,
-      // añade ?v=2 manualmente en la URL de la imagen.
     })();
   </script>
 </body>
